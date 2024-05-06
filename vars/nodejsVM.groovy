@@ -7,7 +7,8 @@ pipeline {
     }
     environment {
         packageVersion = ''
-        nexusURL = '172.31.25.31:8081'
+        //can maintain pipeline globals file
+        //nexusURL = '172.31.25.31:8081'
     }
 
     options {
@@ -51,11 +52,12 @@ pipeline {
                  """
             }
         }
+        //zip -q -r catalogue.zip ./* -x ".git" -x "*.zip"
         stage('Build') {
             steps {
                 sh """
                     ls -la
-                    zip -q -r catalogue.zip ./* -x ".git" -x "*.zip"
+                    zip -q -r ${configMap.component}.zip ./* -x ".git" -x "*.zip"
                     ls -ltr
 
                 """
@@ -66,15 +68,19 @@ pipeline {
                  nexusArtifactUploader(
                  nexusVersion: 'nexus3',
                  protocol: 'http',
-                 nexusUrl: "${nexusURL}",
+                 //nexusUrl: "${nexusURL}",                 //before shaed lib's
+                 nexusUrl: pipelineGlobals.nexusURL(),       //after shared lib's
                  groupId: 'com.roboshop',
                  version: "${packageVersion}",
-                 repository: 'catalogue',
+                 //repository: 'catalogue',
+                 repository: "${configMap.component}"
                  credentialsId: 'nexus-auth',
                  artifacts: [
-                        [artifactId: 'catalogue',
+                        [
+                        //artifactId: 'catalogue',
+                        artifactId: "${configMap.component}",
                         classifier: '',
-                        file: 'catalogue.zip',
+                        file: "${configMap.component}.zip",
                         type: 'zip']
                     ]
                 )
@@ -88,7 +94,7 @@ pipeline {
                 }
             }
             steps {
-                build job: 'catalogue-deploy2', wait: true,
+                build job: "${configMap.component}-deploy2", wait: true,
                 parameters: [
                     string(name: 'version', value: "${packageVersion}"),
                     string(name: 'environment', value: "dev"),
