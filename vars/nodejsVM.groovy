@@ -74,8 +74,8 @@ pipeline {
                  version: "${packageVersion}",
                  //repository: 'catalogue',
                  repository: "${configMap.component}",
-                 credentialsId: 'nexus-auth',
-                 artifacts: [
+                 credentialsId: 'nexus-auth'
+                 artifa cts: [
                         [
                         //artifactId: 'catalogue',
                         artifactId: "${configMap.component}",
