@@ -73,7 +73,7 @@ pipeline {
                  groupId: 'com.roboshop',
                  version: "${packageVersion}",
                  //repository: 'catalogue',
-                 repository: "${configMap.component}"
+                 repository: "${configMap.component}",
                  credentialsId: 'nexus-auth',
                  artifacts: [
                         [
@@ -86,7 +86,7 @@ pipeline {
                 )
             }
         }
-        stage('trigger catalogue-deploy2 pipeline once ci success yi.e., deploy stage') {
+        stage('trigger catalogue-deploy2 pipeline once ci success i.e., deploy stage') {
 
             when {
                 expression {
