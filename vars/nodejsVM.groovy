@@ -48,7 +48,7 @@ pipeline {
         stage('Sonar-scan') {
             steps {
                  sh """
-                    sonar-scanner
+                    echo "for cost issues we r not creating sonar instance and run cmd..Here sonar scan will run cmd is :- sonar-scanner and upload results to sonarqube tool there dev's can see the results"
                  """
             }
         }
