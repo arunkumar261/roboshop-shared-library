@@ -52,7 +52,7 @@ pipeline {
                  """
             }
         }
-        //zip -q -r catalogue.zip ./* -x ".git" -x "*.zip"
+        //zip -q -r catalogue.zip ./* -x ".git" -x "*.zip"      //replace below before shared lib's
         stage('Build') {
             steps {
                 sh """
@@ -94,7 +94,7 @@ pipeline {
                 }
             }
             steps {
-                build job: "${configMap.component}-deploy2", wait: true,
+                build job: "../${configMap.component}-deploy2", wait: true,
                 parameters: [
                     string(name: 'version', value: "${packageVersion}"),
                     string(name: 'environment', value: "dev"),
