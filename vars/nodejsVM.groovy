@@ -17,7 +17,7 @@ pipeline {
     }
 
      parameters {
-        booleanParam(name: 'Deploy', defaultValue: 'false', description: 'Toggle the value')
+        booleanParam(name: 'Deploy', defaultValue: false, description: 'Toggle the value')
         
     }
 
@@ -90,7 +90,7 @@ pipeline {
 
             when {
                 expression {
-                    params.Deploy == 'true'
+                    params.Deploy
                 }
             }
             steps {
